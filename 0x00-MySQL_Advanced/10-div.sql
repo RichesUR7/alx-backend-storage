@@ -1,4 +1,4 @@
-k: Create a function `SafeDiv` that divides the first number by the second number,
+-- Task: Create a function `SafeDiv` that divides the first number by the second number,
 -- or returns 0 if the second number is equal to 0.
 -- This script is part of the Back-end SQL MySQL curriculum.
 

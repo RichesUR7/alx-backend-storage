@@ -1,4 +1,4 @@
-k: Create a trigger that resets the `valid_email` attribute only 
+-- Task: Create a trigger that resets the `valid_email` attribute only 
 -- when the `email` has been changed
 -- This script is part of the Back-end SQL MySQL curriculum
 

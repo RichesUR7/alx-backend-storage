@@ -1,4 +1,4 @@
-k: Create an index `idx_name_first_score` on the table `names` and the first 
+-- Task: Create an index `idx_name_first_score` on the table `names` and the first 
 -- letter of `name` and the score
 -- This script is part of the Back-end SQL MySQL curriculum
 

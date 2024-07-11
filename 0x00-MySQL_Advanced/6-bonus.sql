@@ -1,4 +1,4 @@
-k: Create a stored procedure `AddBonus` that adds a new correction for a student
+-- Task: Create a stored procedure `AddBonus` that adds a new correction for a student
 -- This script is part of the Back-end SQL MySQL curriculum
 
 DELIMITER $$

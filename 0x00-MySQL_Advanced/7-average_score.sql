@@ -1,4 +1,4 @@
-k: Create a stored procedure `ComputeAverageScoreForUser` that 
+-- Task: Create a stored procedure `ComputeAverageScoreForUser` that 
 -- computes and stores the average score for a student
 -- This script is part of the Back-end SQL MySQL curriculum
 

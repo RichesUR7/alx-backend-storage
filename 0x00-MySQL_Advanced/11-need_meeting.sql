@@ -1,4 +1,4 @@
-k: Create a view `need_meeting` that lists all students 
+-- Task: Create a view `need_meeting` that lists all students 
 -- that have a score under 80 and no `last_meeting` or `last_meeting` more than 1 month ago
 -- This script is part of the Back-end SQL MySQL curriculum
 
