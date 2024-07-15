@@ -1,0 +1,2 @@
+// Lists all databases in MongoDB
+db.adminCommand('listDatabases').databases.forEach(db => print(`${db.name} ${(db.sizeOnDisk / 1073741824).toFixed(3)}GB`));

@@ -1,0 +1,2 @@
+// Lost all documents in the 'school' collection where name is 'Holberton school'
+db.school.find({ name: "Holberton school" })
