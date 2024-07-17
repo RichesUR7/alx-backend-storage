@@ -1,67 +1,38 @@
 #!/usr/bin/env python3
-"""
-Module for web
-"""
+'''A module with tools for request caching and tracking.
+'''
+import redis
+import requests
 from functools import wraps
 from typing import Callable
 
-import redis
-import requests
 
-# Initialize Redis client outside to reuse the connection
-_redis = redis.Redis()
+redis_store = redis.Redis()
+'''The module-level Redis instance.
+'''
 
 
-def count_calls(method: Callable) -> Callable:
-    """
-    Decorator to count the number of calls to a method
-    """
-
+def data_cacher(method: Callable) -> Callable:
+    '''Caches the output of fetched data.
+    '''
     @wraps(method)
-    def wrapper(url: str, *args, **kwargs):
-        """
-        Wrapper function for the decorator
-        """
-        _redis.incr(f"count:{url}")
-        return method(url, *args, **kwargs)
-
-    return wrapper
-
-
-def cache_result(expiration: int = 10) -> Callable:
-    """
-    Decorator to cache the result of a function call with an expiration time
-    """
-
-    def decorator(method: Callable) -> Callable:
-        @wraps(method)
-        def wrapper(url: str, *args, **kwargs):
-            """
-            Wrapper function for caching the result
-            """
-            cached_content = _redis.get(url)
-            if cached_content:
-                return cached_content.decode("utf-8")
-            result = method(url, *args, **kwargs)
-            _redis.setex(url, expiration, result)
-            return result
-
-        return wrapper
-
-    return decorator
+    def invoker(url) -> str:
+        '''The wrapper function for caching the output.
+        '''
+        redis_store.incr(f'count:{url}')
+        result = redis_store.get(f'result:{url}')
+        if result:
+            return result.decode('utf-8')
+        result = method(url)
+        redis_store.set(f'count:{url}', 0)
+        redis_store.setex(f'result:{url}', 10, result)
+        return result
+    return invoker
 
 
-@count_calls
-@cache_result(expiration=10)
+@data_cacher
 def get_page(url: str) -> str:
-    """
-    Get the HTML content of a particular URL
-    """
-    response = requests.get(url)
-    response.raise_for_status()  # Handle HTTP errors
-    return response.text
-
-
-if __name__ == "__main__":
-    url = "http://slowwly.robertomurray.co.uk/delay/3000/url/https://apple.com"
-    print(get_page(url))
+    '''Returns the content of a URL after caching the request's response,
+    and tracking the request.
+    '''
+    return requests.get(url).text
